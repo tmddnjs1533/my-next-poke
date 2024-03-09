@@ -68,11 +68,24 @@ const PokemonDetailContents: React.FC<PokemonDetailContentsProps> = ({id}) => {
             <dl className={'grid grid-cols-3'}>
               <dt>past_types</dt>
               <dd className={'col-span-2'}>{pokemon.past_types.map((pt,i) => (
-                <p key={`pokemon-past-type-${i}`}>
-                  {pt.generation.name}-{pt.types.map((t,j) => (
-											<span key={`pokemon-generation-type-${j}`}>{t.type.name}-{t.slot}</span>
-									))}
-                </p>
+                <div key={`pokemon-past-type-${i}`}>
+                  <p>
+                    <em>generation name:</em>
+                    <span>{pt.generation.name}</span>
+                  </p>
+                  {pt.types.map((t,j) => (
+                    <div key={`pokemon-generation-type-${j}`}>
+                      <p>
+                        <em>type name:</em>
+                        <span>{t.slot}</span>
+                      </p>
+                      <p>
+                        <em>slot:</em>
+                        <span>{t.slot}</span>
+                      </p>
+                    </div>
+                  ))}
+                </div>
               ))}</dd>
             </dl>
           </li>
@@ -123,7 +136,8 @@ const PokemonDetailContents: React.FC<PokemonDetailContentsProps> = ({id}) => {
             <dl className={'grid grid-cols-3'}>
               <dt>forms</dt>
               <dd className={'col-span-2'}>{pokemon.forms.map((f,i) => (
-                <a key={`pokemon-forms-${i}`} href={f.url} target={'_blank'} className={'underline underline-offset-4'}>{f.name}</a>
+                // <a key={`pokemon-forms-${i}`} href={f.url} target={'_blank'} className={'underline underline-offset-4'}>{f.name}</a>
+                <p key={`pokemon-forms-${i}`}>{f.name}</p>
               ))}</dd>
             </dl>
           </li>
@@ -131,16 +145,17 @@ const PokemonDetailContents: React.FC<PokemonDetailContentsProps> = ({id}) => {
             <dl className={'grid grid-cols-3'}>
               <dt>held_items</dt>
               <dd className={'col-span-2'}>{pokemon.held_items.map((hi,i) => (
-                <a key={`pokemon-held-item-${i}`} href={hi.item.url} target={'_blank'} className={'underline underline-offset-4'}>{hi.item.name} </a>
+                // <a key={`pokemon-held-item-${i}`} href={hi.item.url} target={'_blank'} className={'underline underline-offset-4'}>{hi.item.name} </a>
+                <p key={`pokemon-held-item-${i}`}>{hi.item.name}</p>
               ))}</dd>
             </dl>
           </li>
-          <li>
+          {/*<li>
             <dl className={'grid grid-cols-3'}>
               <dt>location_area_encounters</dt>
               <dd className={'col-span-2'}>{pokemon.location_area_encounters}</dd>
             </dl>
-          </li>
+          </li>*/}
           <li>
             <dl className={'grid grid-cols-3'}>
               <dt>기술</dt>
