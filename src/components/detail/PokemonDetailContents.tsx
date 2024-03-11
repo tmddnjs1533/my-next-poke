@@ -1,8 +1,8 @@
 'use client'
 
-import EvolutionChainItem from "@/src/components/EvolutionChainItem";
+import EvolutionChainItem from "@/src/components/detail/EvolutionChainItem";
 import {useDetail} from "@/src/service/pokemon/usePokemonService";
-import Loading from "@/src/components/loading";
+import Loading from "@/src/components/common/Loading";
 
 type PokemonDetailContentsProps = {
 	id:string

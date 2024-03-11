@@ -1,29 +1,31 @@
 import {useInfiniteQuery, useQuery} from '@tanstack/react-query';
 import {
 	ChainLink,
-	EvolutionChain, EvolutionChainViewModel,
+	EvolutionChain,
+	EvolutionChainViewModel,
 	NamedAPIResource,
 	NamedAPIResourceList,
 	Pokemon,
-	PokemonSpecies, PokemonViewModel
+	PokemonSpecies,
+	PokemonViewModel
 } from "@/src/model/pokemon";
-import { notFound } from 'next/navigation'
-// 포켓못 목록 조회
-export async function getPokemon<T = unknown>(pageParam:number|undefined = 0) {
+
+// 포켓못 목록 조회 fetch
+export async function getPokemon(pageParam:number|undefined = 0):Promise<NamedAPIResourceList> {
 	try {
 		const page = Math.round(pageParam-1)*20
 		const res = await fetch(`https://pokeapi.co/api/v2/pokemon/?limit=20&offset=${page}`)
 		if (!res.ok) {
 			throw new Error('데이터를 가져오는 데 실패했습니다.')
 		}
-		const responseData: T = await res.json();
-		return responseData;
+		return res.json();
 	} catch (error) {
 		console.error('Error:', error);
 		throw error;
 	}
 }
 
+// 포켓몬 목록 조회 query
 export function usePokemon() {
 	return useInfiniteQuery({
 		getNextPageParam: (lastPage:NamedAPIResourceList,_,lastPageParam:number) => lastPage.next ? lastPageParam+1 : null,
@@ -33,8 +35,8 @@ export function usePokemon() {
 	})
 }
 
-// 포켓몬 상세 정보 조회 - 한국 이름 조회
-async function fetchSpecies(speciesUrl: string): Promise<{ko_name?:string,evolution_chain?:string}> {
+// 포켓몬 상세 정보 조회 - 한국 이름 조회 fetch
+async function getSpecies(speciesUrl: string): Promise<{ko_name?:string,evolution_chain?:string}> {
 	try {
 		const speciesResponse = await fetch(speciesUrl);
 		if (!speciesResponse.ok) {
@@ -51,21 +53,15 @@ async function fetchSpecies(speciesUrl: string): Promise<{ko_name?:string,evolut
 		return {ko_name:undefined,evolution_chain:undefined};
 	}
 }
-// 포켓몬 상세 정보 조회
+// 포켓몬 상세 정보 조회 fetch
 export async function getDetail(id: string): Promise<PokemonViewModel | null> {
 	try {
 		const detailResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
 		if (!detailResponse.ok) {
 			return null
-			// if (detailResponse.status === 404) {
-			// 	throw new Error('404');
-			// } else {
-			// 	throw new Error('서버에서 데이터를 가져오는 데 실패했습니다.');
-			// }
-			// throw new Error('상세 데이터를 가져오는 데 실패했습니다.');
 		}
 		const detail: Pokemon = await detailResponse.json();
-		const {ko_name,evolution_chain} = await fetchSpecies(detail?.species?.url);
+		const {ko_name,evolution_chain} = await getSpecies(detail?.species?.url);
 		return {
 			...detail,
 			ko_name,
@@ -76,6 +72,7 @@ export async function getDetail(id: string): Promise<PokemonViewModel | null> {
 		throw error;
 	}
 }
+// 포켓몬 상세 정보 조회 query
 export function useDetail(id:string) {
 	return useQuery({
 		queryKey:['pokemon',id],
@@ -84,7 +81,7 @@ export function useDetail(id:string) {
 	})
 }
 
-// 포켓몬 진화 트리 조회
+// 포켓몬 진화 트리 조회 fetch
 function makeEvolutionChainArray(evolutionChain:EvolutionChain | undefined) {
   const speciesArray:NamedAPIResource[] = [];
 

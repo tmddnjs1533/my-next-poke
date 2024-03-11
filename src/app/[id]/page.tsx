@@ -2,7 +2,7 @@
 import {getDetail} from "@/src/service/pokemon/usePokemonService";
 import {getQueryClient} from "@/src/utils/react-query";
 import {dehydrate, HydrationBoundary} from "@tanstack/react-query";
-import PokemonDetailContents from "@/src/components/pokemonDetailContents";
+import PokemonDetailContents from "@/src/components/detail/PokemonDetailContents";
 import {notFound} from "next/navigation";
 
 export default async function Page({params}: { params: { id: string } }) {

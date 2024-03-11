@@ -1,4 +1,4 @@
-import {PokemonList } from "@/src/components/pokemonList";
+import {PokemonList } from "@/src/components/PokemonList";
 import {
   HydrationBoundary,
   dehydrate,

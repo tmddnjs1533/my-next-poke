@@ -14,9 +14,7 @@ export default function EvolutionChainItem({url}:EvolutionChainItemProps) {
 			<dd className={'flex col-span-2'}>
 				{evolutionChain.map((item,i) => (
 					<div key={`pokemon-evolution-chain-${i}`}>
-						<a href={`/${item.name}`} target="_blank" className="bg-sky-200">
-						{item?.ko_name || item.name}{item?.ko_name ? `(${item.name})` : ''}
-					</a>
+						<a href={`/${item.name}`} target="_blank" className="bg-sky-200">{item?.ko_name || item.name}{item?.ko_name ? `(${item.name})` : ''}</a>
 						<span>{i < evolutionChain.length-1 ? ` / ` : ''}&nbsp;</span>
 					</div>
 

@@ -5,8 +5,8 @@ import {usePokemon} from "@/src/service/pokemon/usePokemonService";
 import React, {useCallback, useRef, useState} from "react";
 import useIntersectionObserver from "@/src/hooks/useIntersectionObserver";
 import {useRouter} from "next/navigation";
-import PokemonItem from "@/src/components/pokemonItem";
-import Loading from "@/src/components/loading";
+import PokemonItem from "@/src/components/PokemonItem";
+import Loading from "@/src/components/common/Loading";
 
 export function PokemonList() {
 	const { data: pokemon,
